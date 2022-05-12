@@ -7,6 +7,7 @@ class Board
 {
 	int board[9][9];
 	void fillRegion(int, int);
+	bool fillRest(int, int);
 public:
 	Board();
 	void generateNumber();
