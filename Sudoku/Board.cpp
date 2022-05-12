@@ -35,60 +35,47 @@ void Board::fillRegion(int row, int col)
     }
 }
 
-bool Board::fillRest(int row, int col)
+bool Board::fillRest()
 {
-    // Check if we have reached the 8th
-    // row and 9th column (0
-    // indexed matrix) , we are
-    // returning true to avoid
-    // further backtracking
-    if (row == 8 && col == 9)
+    int row, col;
+
+    // If there is no unassigned location,
+    // we are done
+    if (!findEmpty(row, col))
+        // success!
         return true;
 
-    // Check if column value  becomes 9 ,
-    // we move to next row and
-    //  column start from 0
-    if (col == 9) {
-        row++;
-        col = 0;
-    }
-
-    // Check if the current position of
-    // the grid already contains
-    // value >0, we iterate for next column
-    if (board[row][col] > 0)
-        return fillRest(row, col + 1);
-
+    // Consider digits 1 to 9
     for (int num = 1; num <= 9; num++)
     {
-
-        // Check if it is safe to place
-        // the num (1-9)  in the
-        // given row ,col  ->we
-        // move to next column
+        // Check if looks promising
         if (isValid(row, col, num))
         {
-
-            /* Assigning the num in
-               the current (row,col)
-               position of the grid
-               and assuming our assigned
-               num in the position
-               is correct     */
+            // Make tentative assignment
             board[row][col] = num;
 
-            //  Checking for next possibility with next
-            //  column
-            if (fillRest(row, col + 1))
+            // Return, if success
+            if (fillRest())
+                return true;
+
+            // Failure, unmake & try again
+            board[row][col] = 0;
+        }
+    }
+
+    // This triggers backtracking
+    return false;
+}
+
+bool Board::findEmpty(int& row, int& col)
+{
+    for (row = 0; row < 9; row++)
+    {
+        for (col = 0; col < 9; col++)
+        {
+            if (board[row][col] == 0)
                 return true;
         }
-
-        // Removing the assigned num ,
-        // since our assumption
-        // was wrong , and we go for
-        // next assumption with
-        // diff num value
-        board[row][col] = 0;
     }
     return false;
 }
@@ -117,7 +104,7 @@ void Board::generateNumber()
     }
 
     // fill remaining blocks
-    fillRest(0, 0);
+    fillRest();
 
     // remove number in block randomly
     int count = 20; // Number of removed block
