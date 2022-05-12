@@ -11,7 +11,7 @@ int Board::randomGenerator(int num)
 
 void Board::fillRegion(int row, int col)
 {
-    int num;
+    int num = 0;
     for (int i = 0; i < 3; i++) // row
     {
         cout << "row " << i << endl;
@@ -30,16 +30,15 @@ void Board::fillRegion(int row, int col)
             while (true)
             {
                 num = randomGenerator(9);
-                if (isValid(row, col, num))
+                cout << num << endl;
+                if (cekRegion(row, col, num))
                 {
-                    fill(row + i, col + j, num);
-                    cout << num << endl;
-                    if (isValid(row, col, num))
-                        cout << "Ok" << endl;
-                    break;
+                    {
+                        fill(row + i, col + j, num);
+                        break;
+                    }
                 }
             }
-            //fill(row + i, col + j, num);
         }
     }
 }
@@ -66,20 +65,30 @@ void Board::generateNumber()
         cout << "Region " << i << " , " << i << endl;
         fillRegion(i, i);
     }
+    printBoard();
 
     // fill remaining blocks
-    //int num, cekCount = 0;
-    //for (int i = 0; i < 9; i++)
-    //{
-    //    for (int j = 0; j < 9; j++)
-    //    {
-    //        if (board[i][j] == 0)
-    //        {
-    //            num = randomGenerator(9);
-    //            fill(i, j, num);
-    //        }
-    //    }
-    //}
+    int num, cekCount = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (board[i][j] == 0)
+            {
+                while (true)
+                {
+                    num = randomGenerator(9);
+                    cout << num << endl;
+                    if (isValid(i, j, num))
+                    {
+                        cout << "found valid" << endl;
+                        fill(i, j, num);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     // remove number in block randomly
 }
@@ -87,16 +96,10 @@ void Board::generateNumber()
 bool Board::cekRegion(int rowStart, int colStart, int num)
 {
     for (int i = 0; i < 3; i++)
-    {
         for (int j = 0; j < 3; j++)
-        {
-            if (board[rowStart + i][colStart + i] == num)
-            {
-                cout << "there is same number in the region" << endl;
+            if (board[rowStart + i][colStart + j] == num)
                 return false;
-            }
-        }
-    }
+
     return true;
 }
 
