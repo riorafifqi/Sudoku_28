@@ -14,15 +14,15 @@ void Board::fillRegion(int row, int col)
     int num = 0;
     for (int i = 0; i < 3; i++) // row
     {
-        cout << "row " << i << endl;
+        //cout << "row " << i << endl;
         for (int j = 0; j < 3; j++) // column
         {
-            cout << "col " << j << endl;
+            //cout << "col " << j << endl;
 
             while (true)
             {
                 num = randomGenerator(9);
-                cout << num << endl;
+                //cout << num << endl;
                 if (cekRegion(row, col, num))
                 {
                     {
@@ -92,6 +92,7 @@ Board::Board()
     }
 
     generateNumber();
+    printBoard();
 }
 
 void Board::generateNumber()
@@ -99,7 +100,7 @@ void Board::generateNumber()
     // fill diagonal
     for (int i = 0; i < 9; i += 3)   // iterating through diagonal region
     {
-        cout << "Region " << i << " , " << i << endl;
+        //cout << "Region " << i << " , " << i << endl;
         fillRegion(i, i);
     }
 
@@ -111,7 +112,7 @@ void Board::generateNumber()
     while (count != 0)
     {
         int blockId = randomGenerator(81) - 1;
-
+        cout << blockId << endl;
         // extract coordinates i  and j
         int i = blockId / 9;
         int j = blockId % 9;
@@ -182,11 +183,16 @@ void Board::printBoard()
     }
 }
 
-int main()
+int Board::getNum(int row, int col)
 {
-
-    Board board;
-
-    board.printBoard();
-    
+    return board[row][col];
 }
+
+//int main()
+//{
+//
+//    Board board;
+//
+//    board.printBoard();
+//    
+//}

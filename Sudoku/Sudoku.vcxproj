@@ -140,9 +140,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Commands.h" />
+    <ClInclude Include="Command_Delete.h" />
+    <ClInclude Include="Command_Fill.h" />
+    <ClInclude Include="Game_Manager.h" />
+    <ClInclude Include="Invoker.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="Command_Delete.cpp" />
+    <ClCompile Include="Command_Fill.cpp" />
+    <ClCompile Include="Game_Manager.cpp" />
+    <ClCompile Include="Invoker.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

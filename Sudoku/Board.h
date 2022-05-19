@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <time.h>
+#include <list>
 
 using namespace std;
 class Board
@@ -9,6 +10,7 @@ class Board
 	void fillRegion(int, int);
 	bool fillRest();
 	bool findEmpty(int&, int&);
+	int randomGenerator(int);
 public:
 	Board();
 	void generateNumber();
@@ -19,7 +21,7 @@ public:
 	void fill(int, int, int);
 	void remove(int, int);
 	void printBoard();
-	int randomGenerator(int);
+	int getNum(int, int);
 };
 
 
