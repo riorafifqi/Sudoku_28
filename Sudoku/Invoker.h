@@ -9,8 +9,9 @@ using namespace std;
 
 class Invoker
 {
-	stack<Commands> commands;
+	stack<Commands*> commands;
 public:
+	Invoker();
 	void pushCommand(Commands*);
 	Commands* popCommand();
 };

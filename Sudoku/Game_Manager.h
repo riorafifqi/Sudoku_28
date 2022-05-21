@@ -23,5 +23,6 @@ public:
 	void redoMove();
 	void quit();
 	void play();
+	void move();
 };
 

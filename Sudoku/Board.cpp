@@ -74,7 +74,11 @@ bool Board::findEmpty(int& row, int& col)
         for (col = 0; col < 9; col++)
         {
             if (board[row][col] == 0)
+            {
+
                 return true;
+            }
+                
         }
     }
     return false;
@@ -92,7 +96,6 @@ Board::Board()
     }
 
     generateNumber();
-    printBoard();
 }
 
 void Board::generateNumber()
@@ -112,7 +115,7 @@ void Board::generateNumber()
     while (count != 0)
     {
         int blockId = randomGenerator(81) - 1;
-        cout << blockId << endl;
+        //cout << blockId << endl;
         // extract coordinates i  and j
         int i = blockId / 9;
         int j = blockId % 9;
@@ -163,6 +166,7 @@ bool Board::isValid(int row, int col, int num)
 
 void Board::fill(int row, int col, int num)
 {
+
     board[row][col] = num;
 }
 
@@ -190,9 +194,6 @@ int Board::getNum(int row, int col)
 
 //int main()
 //{
-//
 //    Board board;
-//
-//    board.printBoard();
 //    
 //}
