@@ -2,16 +2,16 @@
 
 Game_Manager::Game_Manager()
 {
-	string temp;
+	string playerName;
 	cout << "Welcome to Sudoku" << endl;
 	cout << "Please insert your name" << endl;
-	cin >> temp;
-	player.setName(temp);
-	cout << "Hi " << temp << " Press " << endl;
+	cin >> playerName;
+	player.setName(playerName);
+	cout << "Hi " << playerName << " Press " << endl;
 
 	int choose;
 	bool condition = true;
-	cout << "1. Start" << endl << "2. Exit" << endl;
+	cout << "1. New Game" << endl << "2. Load Game" << endl;
 
 	// Main Menu
 	while (condition)
@@ -24,8 +24,11 @@ Game_Manager::Game_Manager()
 			play();
 			condition = false;
 			break;
-
 		case 2:
+			load();
+			condition = false;
+			break;
+		case 3:
 			quit();
 			condition = false;
 			break;
@@ -98,6 +101,7 @@ void Game_Manager::quit()
 void Game_Manager::play()
 {
 	cout << "Starting Game" << endl;
+	move();
 }
 
 void Game_Manager::move()
@@ -111,7 +115,7 @@ void Game_Manager::move()
 		cout << "2. Delete" << endl;
 		cout << "3. Undo" << endl;
 		cout << "4. Redo" << endl;
-		cout << "5. Exit" << endl;
+		cout << "5. Save" << endl;
 		cout << "Select your command: ";
 
 		cin >> opt;
@@ -145,6 +149,11 @@ void Game_Manager::move()
 			condition = false;
 			break;
 		case 5:
+			// Save
+			save();
+			condition = false;
+			break;
+		case 6:
 			// Quit
 			cout << "Quit" << endl;
 			condition = false;
@@ -157,6 +166,121 @@ void Game_Manager::move()
 	}
 }
 
+void Game_Manager::save()
+{
+	fstream out;
+	string filename;
+	int temp, opt;
+	bool condition = true;
+
+	while (condition)
+	{
+		// Choose save file
+		cout << "Select save file to save your progress: " << endl;
+		cout << "1. Save File 1" << endl;
+		cout << "2. Save File 2" << endl;
+		cout << "3. Save File 3" << endl;
+		cin >> opt;
+
+		switch (opt)
+		{
+		case 1:
+			filename = "file1.txt";
+			break;
+		case 2:
+			filename = "file2.txt";
+			break;
+		case 3:
+			filename = "file3.txt";
+			break;
+		default:
+			cout << "Save file doesn't exist" << endl;
+			break;
+		}
+		
+		if (out)
+		{
+			char ynOpt = ' ';
+			cout << "Do you want to overwrite this save file?" << endl;
+			cin >> ynOpt;
+			if (ynOpt == 'Y' || ynOpt == 'y')
+			{
+				out.open(filename, fstream::out);
+				condition = false;
+			}
+		}
+		else 
+			out.open(filename, fstream::out);
+	}
+	
+	// Program save board data
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			temp = board.getNum(i, j);
+			out << temp << " ";
+		}
+		cout << endl;
+	}
+	out.close();
+}
+
+void Game_Manager::load()
+{
+	fstream in;
+	string filename;
+	int temp, opt;
+	bool condition = true;
+
+	while (condition)
+	{
+		// choose file slot
+		cout << "Select save file to load" << endl;
+		cout << "1. Save File 1" << endl;
+		cout << "2. Save File 2" << endl;
+		cout << "3. Save File 3" << endl;
+		cin >> opt;
+
+		switch (opt)
+		{
+		case 1:
+			filename = "file1.txt";
+			break;
+		case 2:
+			filename = "file2.txt";
+			break;
+		case 3:
+			filename = "file3.txt";
+			break;
+		default:
+			cout << "Save file doesn't exist" << endl;
+			break;
+		}
+
+		in.open(filename, fstream::in);
+		if (in)	// if file exist
+		{
+			condition = false;
+		}
+		else
+		{
+			cout << "Save file doesn't exist" << endl;
+		}
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			in >> temp;
+			fillCell(i, j, temp);
+		}
+	}
+	in.close();
+	play();
+}
+
 int main()
 {
 	Game_Manager GM;
@@ -164,7 +288,9 @@ int main()
 	while (!GM.checkWin())
 	{
 		GM.move();
+		cout << GM.checkWin() << endl;
 	}
+	cout << "Congratulation! you win!" << endl;
 
 	return 0;
 }
